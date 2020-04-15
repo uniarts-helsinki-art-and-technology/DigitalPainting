@@ -20,6 +20,8 @@ String logStartTime;
 
 PGraphics scribble;
 
+int frameOffset = 0;
+
 void setup() {
   size(1280, 720);
   font = loadFont("LucidaBright-48.vlw");
@@ -80,11 +82,12 @@ void draw() {
     scribble.stroke(255, 100);
     scribble.line(prevPosX, prevPosY, posX, posY);
     scribble.endDraw();
+    pressure = 0.5;
   }
 
   // Write the coordinate to a file
   if (recording) {
-    logFile.println(frameCount + "\t" + millis() + "\t" + posX + "\t" + posY +  ", " + pressure   + "\t" + tablet.getPressure() + "\t" + mouseDown);
+    logFile.println((frameCount-frameOffset) + "\t" + millis() + "\t" + posX + "\t" + posY + "\t" + pressure + "\t" + mouseDown);
   } else {
   }
 
@@ -132,7 +135,7 @@ void keyPressed() { // Press a key to save the data
         println("logFile " + logStartTime + " saved");
       }
     }
-
+    frameOffset = frameCount;
     logStartTime = "log-" + name + "_" + year() + "_" + month() + "_" + day() + "_" + hour() + "_" + minute() + "_" + second();
     logFile = createWriter("logFiles/" + logStartTime + ".txt");
     recording = true;
