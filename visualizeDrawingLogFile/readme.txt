@@ -4,8 +4,8 @@
 NOTE
 Before starting remember to load LOG FILE
 
-The LOG FILE is generate in program: 
-tr_drawingLines_particles_kinect_Leap_multiBrush
+The LOG FILE is generated in the program: 
+Tablet_Log_v1
 
 
 
