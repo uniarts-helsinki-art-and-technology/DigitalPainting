@@ -10,14 +10,6 @@ void setupControls(){
 
 cp5 = new ControlP5(this);
   
-  cp5.addTextfield("idParticipant")
-     .setPosition(20,100)
-     .setSize(200,40)
-     .setFont(createFont("arial",20))
-     .setFocus(true)
-     .setColor(color(255,0,0))
-     .setAutoClear(false)
-     ;
                  
   cp5.addTextfield("name")
      .setPosition(20,170)
