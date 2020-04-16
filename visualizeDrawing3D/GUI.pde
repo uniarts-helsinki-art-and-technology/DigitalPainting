@@ -66,7 +66,7 @@ class ControlFrame extends PApplet {
   }
 
   void saveImage() {  
-    screen.save("savedImages/drawing_" + year() + day() + hour() + minute() + second()+ ".png" );
+    screen.save(path + "/savedImages/drawing_" + year() + day() + hour() + minute() + second()+ ".png" );
     println("FRAME SAVED");
   }
 

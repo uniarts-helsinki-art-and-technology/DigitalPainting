@@ -18,23 +18,19 @@ FloatList myFrame, millis, mousePress;
 FloatList xAxis, yAxis, myFrameAxis, pressureAxis;
 
 float pressureX, pressureY, revolutions;
-int step;
+int step = 1;
 
 PImage bill;
 
 PFont frameNumFont;
 
-BrightnessContrastController brightnessContrastController;
-
-Brush brush;
-
 PImage screen;
-
-Logger logger;
 
 boolean saveSVG, savePDF = false;
 
 int xDimension, yDimension;
+
+String path;
 
 void settings() {
   size(900, 900, P3D);
@@ -49,19 +45,17 @@ void setup() {
   stroke(0);
 
   imageMode(CENTER);
-  brightnessContrastController = new BrightnessContrastController();
 
-  brush = new Brush(0, 0);
+  path = dataPath("");
+  println("dataPath : " + path);
 
-  parseFile("logFile.txt");
+  parseFile(path + "/logFiles/" + "logFile.txt");
 
   cf = new ControlFrame(this, 500, 150, "Controls");
   surface.setLocation(420, 10);
 
   cam = new PeasyCam(this, 800);
-  
 
-  logger = new Logger();
   xDimension=1;
   yDimension=1;
 }
@@ -69,12 +63,12 @@ void setup() {
 void draw() {
 
   background(255); 
- if (record) {
-    OBJExport obj = (OBJExport) createGraphics(10,10,"nervoussystem.obj.OBJExport","drawing.obj");
+  if (record) {
+    OBJExport obj = (OBJExport) createGraphics(10, 10, "nervoussystem.obj.OBJExport", "drawing.obj");
     obj.setColor(true);
     obj.beginDraw();
     obj.noFill();
-    drawNormalDrawingZHeight(obj,start, end, step);
+    drawNormalDrawingZHeight(obj, start, end, step);
     obj.endDraw();
     obj.dispose();
   }
@@ -84,7 +78,7 @@ void draw() {
 
   drawNormalDrawingZHeight(start, end, step);
   popMatrix();
-  
+
   if (record) {
     endRecord();
     record = false;
@@ -98,11 +92,10 @@ void keyPressed() {
     screen.save("drawing " + year() + day() + hour() + minute() + second()+ ".png" );
     println("FRAME SAVED");
   }
-  
+
   if (key == 'r') {
     record = true;
   }
-
 }
 
 void loadLogFile() {
@@ -163,5 +156,4 @@ void parseFile(String s) {
   }
 
   println("myFrame.size() " + myFrame.size());
-
 } 

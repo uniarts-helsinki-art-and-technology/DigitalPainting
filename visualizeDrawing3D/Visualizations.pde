@@ -33,9 +33,12 @@ void drawNormalDrawingZHeight(int startFrame, int endFrame, int step) {
       }
       else{
         out = true;
-      }     
+      }  
+      
+      
     } 
     endShape();
+    
   }  
   popStyle();
   popMatrix();
