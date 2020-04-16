@@ -138,7 +138,7 @@ public void keyPressed() { // Press a key to save the data
     if (recording) { 
       logFile.flush(); // Write the remaining data
       logFile.close(); // Finish the file
-      scribble.save("logFiles/" + logStartTime + ".png");
+      scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
       println("logFile saved");
       recording = false;
     }
@@ -150,13 +150,13 @@ public void keyPressed() { // Press a key to save the data
       if (recording) {        
         logFile.flush(); // Write the remaining data
         logFile.close(); // Finish the file
-        scribble.save("logFiles/" + logStartTime + ".png");
+        scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
         println("logFile " + logStartTime + " saved");
       }
     }
     frameOffset = frameCount;
     logStartTime = "log-" + name + "_" + year() + "_" + month() + "_" + day() + "_" + hour() + "_" + minute() + "_" + second();
-    logFile = createWriter("logFiles/" + logStartTime + ".txt");
+    logFile = createWriter(dataPath("") + "/logFiles/" + logStartTime + ".txt");
     recording = true;
     scribble.beginDraw();
     scribble.background(0);
