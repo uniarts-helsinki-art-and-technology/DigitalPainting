@@ -12,7 +12,7 @@ cp5 = new ControlP5(this);
 ControlFont font = new ControlFont(loadFont(fontName), 16);
   
                  
-  cp5.addTextfield("name")
+  cp5.addTextfield("title")
      .setPosition(leftMargin,170)
      .setSize(200,40)
      .setFont(font)
@@ -40,11 +40,12 @@ ControlFont font = new ControlFont(loadFont(fontName), 16);
   
 }
 
-public void name(String theText) {
+public void title(String theText) {
   // automatically receives results from controller input
   println("a textfield event for controller 'input' : "+theText);
   if(!recording){
   idParticipant = theText;
+  name = theText;
   }
 }
 

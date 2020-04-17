@@ -109,7 +109,7 @@ void draw() {
   textAlign(CENTER);
   if (recording) {
     // show gui
-    cp5.getController("name").hide();
+    cp5.getController("title").hide();
     cp5.getController("rec").setLabel("Restart");
     
     // show additional text info only in the start of recording
@@ -129,7 +129,7 @@ void draw() {
   } else {
     text("RECORDING OFF", width * 0.5, height * 0.8);
     //text("PRESS 'n' to start/stop  recording", width * 0.5, height * 0.85);
-    cp5.getController("name").show();
+    cp5.getController("title").show();
     cp5.getController("rec").setLabel("Start");
     textAlign(LEFT);
     text("posX: " + posX + "\n"  +  "posY: " + posY + "\n" + "pressure: " + pressure + "\n" + "time in ms: " + timeinms, leftMargin, 50);
@@ -169,6 +169,7 @@ void startRecording(){
       }
     }
     frameOffset = frameCount;
+    
     logStartTime = "log-" + name + "_" + year() + "_" + month() + "_" + day() + "_" + hour() + "_" + minute() + "_" + second();
     logFile = createWriter(dataPath("") + "/logFiles/" + logStartTime + ".txt");
     recording = true;
