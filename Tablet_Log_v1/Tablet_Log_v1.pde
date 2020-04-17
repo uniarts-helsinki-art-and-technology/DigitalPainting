@@ -44,6 +44,8 @@ void setup() {
   scribble.endDraw();
 
   setupControls();
+  println("sketchPath " + sketchPath());
+   println("dataPath " + dataPath(""));
 }
 
 void draw() {
@@ -164,14 +166,14 @@ void startRecording(){
       if (recording) {        
         logFile.flush(); // Write the remaining data
         logFile.close(); // Finish the file
-        scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
+        scribble.save(sketchPath() + "/logFiles/" + logStartTime + ".png");
         println("logFile " + logStartTime + " saved");
       }
     }
     frameOffset = frameCount;
     
     logStartTime = "log-" + name + "_" + year() + "_" + month() + "_" + day() + "_" + hour() + "_" + minute() + "_" + second();
-    logFile = createWriter(dataPath("") + "/logFiles/" + logStartTime + ".txt");
+    logFile = createWriter(sketchPath() + "/logFiles/" + logStartTime + ".txt");
     recording = true;
     scribble.beginDraw();
     scribble.background(0);
@@ -183,7 +185,8 @@ void stoptRecording(){
     if (recording) { 
       logFile.flush(); // Write the remaining data
       logFile.close(); // Finish the file
-      scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
+      
+      scribble.save(sketchPath() + "/logFiles/" + logStartTime + ".png");
       println("logFile saved");
       recording = false;
     }
