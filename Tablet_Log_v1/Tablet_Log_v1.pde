@@ -14,18 +14,23 @@ float pressure, posX, posY, prevPosX, prevPosY, timeinms;
 
 boolean quitSafety = false;
 boolean recording = false;
+boolean info = true;
 
 PFont font;
 String logStartTime;
+String fontName = "Helvetica-24.vlw";
 
 PGraphics scribble;
 
 int frameOffset = 0;
+int showInfoCount = 0;
+int leftMargin = 20;
+
 
 void setup() {
   size(1280, 720);
-  font = loadFont("LucidaBright-48.vlw");
-  textFont(font, 12);
+  font = loadFont(fontName);
+  textFont(font, 16);
   textAlign(CENTER);
 
   tablet = new Tablet(this); 
@@ -43,6 +48,7 @@ void setup() {
 
 void draw() {
   background(0);
+  fill(255);
   // Instead of mousePressed, one can use the Tablet.isMovement() method, which
   // returns true when changes not only in position but also in pressure or tilt
   // are detected in the tablet. 
@@ -102,12 +108,33 @@ void draw() {
   image(scribble, 0, 0);
   textAlign(CENTER);
   if (recording) {
-    text("recording now participant " + name + " on log file" + logStartTime + " frame count " + frameCount, width * 0.5, height * 0.8);
+    // show gui
+    cp5.getController("name").hide();
+    cp5.getController("rec").setLabel("Restart");
+    
+    // show additional text info only in the start of recording
+    if(info){
+    fill(255, 255-showInfoCount);
+    text("RECORDING", width * 0.5, height * 0.8);
+    //text("PRESS 's' to stop recording", width * 0.5, height * 0.85);
+    //text("recording: " + name + " on log file" + logStartTime + " frame count " + frameCount, width * 0.5, height * 0.9);
+    showInfoCount+=2;
+    if(showInfoCount>255){
+     info = false;
+    }
+    }
+    else {
+      showInfoCount=0;
+    }
   } else {
-    text("NOT recording. PRESS 'n' to start a new recording", width * 0.5, height * 0.8);
+    text("RECORDING OFF", width * 0.5, height * 0.8);
+    //text("PRESS 'n' to start/stop  recording", width * 0.5, height * 0.85);
+    cp5.getController("name").show();
+    cp5.getController("rec").setLabel("Start");
+    textAlign(LEFT);
+    text("posX: " + posX + "\n"  +  "posY: " + posY + "\n" + "pressure: " + pressure + "\n" + "time in ms: " + timeinms, leftMargin, 50);
   }
-  textAlign(LEFT);
-  text("posX: " + posX + "\n"  +  "posY: " + posY + "\n" + "pressure: " + pressure + "\n" + "time in ms: " + timeinms, 50, 50);
+
 }
 
 void keyPressed() { // Press a key to save the data
@@ -116,16 +143,22 @@ void keyPressed() { // Press a key to save the data
   }
   switch(key) {
   case 's': 
-    if (recording) { 
-      logFile.flush(); // Write the remaining data
-      logFile.close(); // Finish the file
-      scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
-      println("logFile saved");
-      recording = false;
-    }
+   // stoptRecording(); TODO: If user types s to title/name recording starts
     break;
   case 'n': 
-    if (logFile != null) {
+   // startRecording(); TODO: If user types n to title/name recording starts
+    break;
+  case 'q':
+   // quitApplication(); TODO: KEY CODE CHANGES
+    break;
+  default:             // Default executes if the case labels
+    //println("None");   // don't match the switch parameter
+    break;
+  }
+}
+
+void startRecording(){
+      if (logFile != null) {
       logFile.flush();
     } else {
       if (recording) {        
@@ -143,17 +176,22 @@ void keyPressed() { // Press a key to save the data
     scribble.background(0);
     scribble.endDraw();
     println("started a new recording at time " + logStartTime);  // Does not execute
-    break;
+}
 
-  case 'q':
-    if (!quitSafety) {
+void stoptRecording(){
+    if (recording) { 
+      logFile.flush(); // Write the remaining data
+      logFile.close(); // Finish the file
+      scribble.save(dataPath("") + "/logFiles/" + logStartTime + ".png");
+      println("logFile saved");
+      recording = false;
+    }
+}
+
+void quitApplication(){
+      if (!quitSafety) {
       quitSafety = true;
     } else {
       exit();
     }
-    break;
-  default:             // Default executes if the case labels
-    //println("None");   // don't match the switch parameter
-    break;
-  }
 }
